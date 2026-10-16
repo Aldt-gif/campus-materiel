@@ -1,0 +1,37 @@
+form {
+  display: grid;
+  gap: 1rem;
+  max-width: 32rem;
+  padding: 1.25rem;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.champ {
+  display: grid;
+  gap: 0.25rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+input[aria-invalid='true'],
+select[aria-invalid='true'],
+textarea[aria-invalid='true'] {
+  border-color: #b91c1c;
+  background: #fef2f2;
+}
+
+.erreur-champ {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

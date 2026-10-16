@@ -1,0 +1,11 @@
+<h1>Accès refusé</h1>
+<p>Votre profil n'a pas le droit d'ouvrir cette page.</p>
+
+@if (auth.utilisateur(); as utilisateur) {
+  <p>
+    Vous êtes connecté en tant que <strong>{{ utilisateur.nom }}</strong>
+    ({{ utilisateur.role === 'student' ? 'étudiant' : 'responsable' }}).
+  </p>
+}
+
+<a routerLink="/catalogue">Retour au catalogue</a>

@@ -1,0 +1,37 @@
+<h1>Mes réservations</h1>
+
+@if (message(); as m) {
+  <p class="message" [class.erreur]="m.erreur" [attr.role]="m.erreur ? 'alert' : 'status'">{{ m.texte }}</p>
+}
+
+@if (lignes().length === 0) {
+  <p class="vide">
+    Vous n'avez aucune réservation.
+    <a routerLink="/catalogue">Parcourir le catalogue</a>
+  </p>
+} @else {
+  <ul class="liste">
+    @for (ligne of lignes(); track ligne.reservation.id) {
+      <li [attr.data-cat]="ligne.equipement?.categorie">
+        @if (ligne.equipement; as e) {
+          <div>
+            <a [routerLink]="['/materiels', e.id]">{{ e.nom }}</a>
+            <span class="detail">{{ e.categorie }} · {{ e.localisation }}</span>
+          </div>
+          <button
+            type="button"
+            class="secondaire"
+            [attr.aria-label]="'Annuler la réservation de ' + e.nom"
+            (click)="annuler(ligne.reservation.id, e.nom)">
+            Annuler
+          </button>
+        } @else {
+          <span>Équipement supprimé</span>
+          <button type="button" class="secondaire" (click)="annuler(ligne.reservation.id, 'équipement supprimé')">
+            Annuler
+          </button>
+        }
+      </li>
+    }
+  </ul>
+}

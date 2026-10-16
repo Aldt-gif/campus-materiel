@@ -1,0 +1,44 @@
+<h1>Catalogue du matériel</h1>
+
+<div class="filtres" role="search">
+  <label>
+    Rechercher par nom
+    <input type="search" [value]="recherche()" (input)="surRecherche($event)" placeholder="Ex. vidéoprojecteur">
+  </label>
+
+  <label>
+    Catégorie
+    <select [value]="categorie()" (change)="surCategorie($event)">
+      <option value="">Toutes</option>
+      @for (c of store.categories; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+  </label>
+
+  <button type="button" class="secondaire" (click)="reinitialiser()">Réinitialiser</button>
+</div>
+
+@if (message(); as m) {
+  <p class="message" [class.erreur]="m.erreur" [attr.role]="m.erreur ? 'alert' : 'status'">{{ m.texte }}</p>
+}
+
+<p class="compteur">{{ resultats().length }} équipement(s) affiché(s) sur {{ store.equipements().length }}</p>
+
+@if (store.equipements().length === 0) {
+  <p class="vide">Le catalogue est vide pour le moment.</p>
+} @else if (resultats().length === 0) {
+  <p class="vide">Aucun équipement ne correspond à votre recherche.</p>
+} @else {
+  <ul class="grille">
+    @for (e of resultats(); track e.id) {
+      <li>
+        <app-carte-equipement
+          [equipement]="e"
+          [disponible]="store.estDisponible(e.id)"
+          [peutReserver]="auth.estEtudiant()"
+          (reserver)="reserver($event)" />
+      </li>
+    }
+  </ul>
+}

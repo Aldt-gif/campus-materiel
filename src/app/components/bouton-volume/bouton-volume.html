@@ -1,0 +1,55 @@
+<!-- Un « slider » accessible : clavier et lecteurs d'écran compris -->
+<div
+  class="zone"
+  [class.danger-gauche]="danger() === 'gauche'"
+  [class.danger-droite]="danger() === 'droite'"
+  [class.aimant]="surLigne()"
+  role="slider"
+  tabindex="0"
+  aria-label="Volume du son"
+  aria-orientation="horizontal"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  [attr.aria-valuenow]="son.volume()"
+  [attr.aria-valuetext]="libelle()"
+  title="Fais glisser la boule : à gauche le son est faible, à droite il est fort. Attention aux bords !"
+  (pointerdown)="enfoncer($event)"
+  (pointermove)="glisser($event)"
+  (pointerup)="relacher($event)"
+  (pointercancel)="relacher($event)"
+  (wheel)="molette($event)"
+  (keydown)="clavier($event)">
+  <div #piste class="piste" [style.--rempli]="son.volume() + '%'">
+    @if (!son.chute()) {
+      <span
+        class="balle"
+        [class.rappel]="balle() === null"
+        [class.tremble]="danger() !== null"
+        [style.left.%]="position()"
+        aria-hidden="true"></span>
+    }
+  </div>
+</div>
+
+<!-- Boule tombée : un vrai objet physique, posé sur la fenêtre. On peut l'attraper, la lancer
+     ou la déposer sur la ligne pour régler de nouveau le volume. -->
+@if (son.chute()) {
+  <span
+    class="balle tombee"
+    [class.saisie]="saisie()"
+    [style.transform]="'translate(' + (x() - rayon) + 'px, ' + (y() - rayon) + 'px) rotate(' + angle() + 'deg) scale(' + (saisie() ? 1.15 : 1) + ')'"
+    title="Attrape-moi, lance-moi, ou dépose-moi sur la ligne !"
+    (pointerdown)="attraper($event)"
+    (pointermove)="deplacerBalle($event)"
+    (pointerup)="lacher($event)"
+    (pointercancel)="lacher($event)"
+    aria-hidden="true"></span>
+}
+
+<span class="affichage" [class.absurde]="son.chute()" aria-hidden="true">{{ icone() }} {{ affichage() }}</span>
+
+@if (son.chute()) {
+  <button type="button" class="remise" (click)="son.remettre()">Remettre la boule</button>
+}
+
+<span class="sr-seulement" role="status">{{ statut() }}</span>

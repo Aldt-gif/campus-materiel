@@ -1,0 +1,39 @@
+@if (equipement(); as e) {
+  <article [attr.data-cat]="e.categorie">
+    <h1>{{ e.nom }}</h1>
+    <p><span class="etat" [class.libre]="!reservation()">{{ reservation() ? 'Réservé' : 'Disponible' }}</span></p>
+
+    <dl>
+      <dt>Identifiant</dt>
+      <dd>{{ e.id }}</dd>
+      <dt>Catégorie</dt>
+      <dd><span class="pastille">{{ e.categorie }}</span></dd>
+      <dt>Description</dt>
+      <dd>{{ e.description }}</dd>
+      <dt>Localisation</dt>
+      <dd>{{ e.localisation }}</dd>
+    </dl>
+
+    @if (auth.estEtudiant()) {
+      @if (!reservation()) {
+        <button type="button" (click)="reserver(e.id)">Réserver cet équipement</button>
+      } @else if (estMienne()) {
+        <p>Vous avez réservé cet équipement.</p>
+        <button type="button" class="secondaire" (click)="annuler()">Annuler ma réservation</button>
+      } @else {
+        <p>Cet équipement est déjà réservé par un autre étudiant.</p>
+      }
+    } @else {
+      <p>Seuls les étudiants peuvent réserver du matériel.</p>
+    }
+
+    @if (message(); as m) {
+      <p class="message" [class.erreur]="m.erreur" [attr.role]="m.erreur ? 'alert' : 'status'">{{ m.texte }}</p>
+    }
+  </article>
+} @else {
+  <h1>Équipement introuvable</h1>
+  <p>Aucun équipement ne porte l'identifiant « {{ id() }} ».</p>
+}
+
+<p><a routerLink="/catalogue">← Retour au catalogue</a></p>

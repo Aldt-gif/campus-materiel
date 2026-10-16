@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* La couleur --cat vient de data-cat (définie dans styles.css) */
+.carte {
+  display: flex;
+  gap: 1rem;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--bord);
+  border-top: 5px solid var(--cat, #64748b);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+/* Au survol, la carte se soulève */
+.carte:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.12);
+}
+
+/* Équipement réservé : fond rayé discret */
+.carte.reserve {
+  background: repeating-linear-gradient(135deg, #ffffff, #ffffff 12px, #f8fafc 12px, #f8fafc 24px);
+}
+
+/* Pastille ronde avec l'icône de la catégorie */
+.icone {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--cat-pale, #f1f5f9);
+  font-size: 1.5rem;
+}
+
+.icone::before { content: '🧩'; }
+.carte[data-cat='Informatique'] .icone::before { content: '💻'; }
+.carte[data-cat='Projection'] .icone::before   { content: '📽️'; }
+.carte[data-cat='Photo'] .icone::before        { content: '📷'; }
+.carte[data-cat='Audio'] .icone::before        { content: '🎧'; }
+
+.corps {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0;
+  color: var(--encre-douce);
+  font-size: 0.9rem;
+}
+
+.description {
+  margin: 0 0 0.9rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+/* Respect des personnes qui réduisent les animations */
+@media (prefers-reduced-motion: reduce) {
+  .carte {
+    transition: none;
+  }
+
+  .carte:hover {
+    transform: none;
+  }
+}

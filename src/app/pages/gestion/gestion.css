@@ -1,0 +1,43 @@
+.bouton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #ffffff;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.tableau {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.5rem 0;
+}
+
+thead th {
+  background: var(--sombre);
+  color: #ffffff;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}

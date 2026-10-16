@@ -1,0 +1,40 @@
+<header class="entete">
+  <a routerLink="/" class="logo" aria-label="Campus Matériel, accueil">
+    <span class="logo-marque" aria-hidden="true">&gt;_</span>
+    <span class="logo-texte">Campus<strong>Matériel</strong></span>
+  </a>
+
+  <nav aria-label="Menu principal">
+    @if (auth.estConnecte()) {
+      <a routerLink="/catalogue" routerLinkActive="active" ariaCurrentWhenActive="page">Catalogue</a>
+    }
+    @if (auth.estEtudiant()) {
+      <a routerLink="/mes-reservations" routerLinkActive="active" ariaCurrentWhenActive="page">Mes réservations</a>
+    }
+    @if (auth.estResponsable()) {
+      <a routerLink="/gestion" routerLinkActive="active" ariaCurrentWhenActive="page">Gestion</a>
+    }
+
+    <app-bouton-volume />
+
+    @if (auth.utilisateur(); as utilisateur) {
+      <span class="utilisateur">
+        {{ utilisateur.nom }}
+        <span class="role" [class.responsable]="utilisateur.role === 'manager'">
+          {{ utilisateur.role === 'student' ? 'Étudiant' : 'Responsable' }}
+        </span>
+      </span>
+      <button type="button" (click)="deconnecter()">Déconnexion</button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Connexion</a>
+    }
+  </nav>
+</header>
+
+@if (stockage.erreur(); as message) {
+  <p class="alerte" role="alert">{{ message }}</p>
+}
+
+<main class="contenu">
+  <router-outlet />
+</main>

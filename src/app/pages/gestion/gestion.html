@@ -1,0 +1,54 @@
+<h1>Gestion du catalogue</h1>
+
+<p><a routerLink="/gestion/nouveau" class="bouton">Nouvel équipement</a></p>
+
+@if (message(); as m) {
+  <p class="message" [class.erreur]="m.erreur" [attr.role]="m.erreur ? 'alert' : 'status'">{{ m.texte }}</p>
+}
+
+@if (store.equipements().length === 0) {
+  <p class="vide">Le catalogue est vide. Créez un premier équipement.</p>
+} @else {
+  <div class="tableau">
+    <table>
+      <caption>Équipements du catalogue</caption>
+      <thead>
+        <tr>
+          <th scope="col">Identifiant</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">Localisation</th>
+          <th scope="col">État</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of store.equipements(); track e.id) {
+          <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.nom }}</td>
+            <td><span class="pastille" [attr.data-cat]="e.categorie">{{ e.categorie }}</span></td>
+            <td>{{ e.localisation }}</td>
+            <td>
+              <span class="etat" [class.libre]="store.estDisponible(e.id)">
+                {{ store.estDisponible(e.id) ? 'Disponible' : 'Réservé' }}
+              </span>
+            </td>
+            <td class="actions">
+              @if (aSupprimer() === e.id) {
+                <span>Supprimer « {{ e.nom }} » ?</span>
+                <button type="button" class="danger" (click)="confirmerSuppression(e.id)">Oui, supprimer</button>
+                <button type="button" class="secondaire" (click)="annulerSuppression()">Non</button>
+              } @else {
+                <a [routerLink]="['/gestion', e.id, 'modifier']" [attr.aria-label]="'Modifier ' + e.nom">Modifier</a>
+                <button type="button" class="danger" [attr.aria-label]="'Supprimer ' + e.nom" (click)="demanderSuppression(e.id)">
+                  Supprimer
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

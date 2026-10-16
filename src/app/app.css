@@ -1,0 +1,123 @@
+:host {
+  display: block;
+  font-family: var(--police);
+  color: var(--encre);
+}
+
+/* En-tête : dégradé sombre + liseré aux couleurs des 4 catégories */
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(100deg, #0b1220 0%, #1e1b4b 100%);
+  border-bottom: 4px solid;
+  border-image: linear-gradient(90deg, #2563eb, #7c3aed, #db2777, #ea580c) 1;
+}
+
+/* Logo : pastille « >_ » + nom */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: var(--police-titre);
+  font-size: 1.15rem;
+}
+
+.logo-marque {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.logo-texte strong {
+  color: var(--accent-clair);
+}
+
+/* Menu : liens clairs sur fond sombre */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+nav a {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+nav a:hover {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+/* Lien de la page courante : fond + trait vert dessous */
+nav a.active {
+  color: #ffffff;
+  background: #1e293b;
+  font-weight: 700;
+  box-shadow: inset 0 -3px 0 var(--accent-clair);
+}
+
+/* Le contour de focus doit rester visible sur fond sombre */
+.entete :focus-visible {
+  outline: 3px solid var(--accent-clair);
+  outline-offset: 2px;
+}
+
+/* Utilisateur connecté et son profil */
+.utilisateur {
+  color: #e2e8f0;
+  padding: 0.4rem 0.4rem;
+}
+
+.role {
+  margin-left: 0.3rem;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.role.responsable {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+nav button {
+  background: transparent;
+  border: 1px solid #64748b;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+nav button:hover {
+  background: #1e293b;
+}
+
+/* Bandeau d'erreur de stockage */
+.alerte {
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  background: #fef2f2;
+  color: #991b1b;
+  border-bottom: 2px solid var(--danger);
+}
+
+/* Zone centrale des pages */
+.contenu {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}

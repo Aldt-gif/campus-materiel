@@ -1,0 +1,164 @@
+/* ===== Identité du site : change ces valeurs pour changer tout le look ===== */
+:root {
+  --fond: #eef1f4;           /* fond des pages */
+  --surface: #ffffff;        /* fond des cartes et formulaires */
+  --encre: #111827;          /* texte principal */
+  --encre-douce: #4b5563;    /* texte secondaire */
+  --bord: #d1d5db;           /* bordures */
+  --sombre: #0b1220;         /* en-tête et titres */
+  --accent: #047857;         /* couleur principale (boutons, liens) */
+  --accent-fonce: #065f46;   /* accent au survol */
+  --accent-clair: #34d399;   /* accent visible sur fond sombre */
+  --accent-pale: #d1fae5;    /* fond clair teinté d'accent */
+  --danger: #b91c1c;         /* suppression et erreurs */
+  --police: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --police-titre: ui-monospace, 'Cascadia Code', Consolas, monospace;
+}
+
+/* Une couleur par catégorie : tout élément qui porte data-cat="..." en hérite */
+[data-cat='Informatique'] { --cat: #2563eb; --cat-pale: #dbeafe; --cat-fonce: #1d4ed8; }
+[data-cat='Projection']   { --cat: #7c3aed; --cat-pale: #ede9fe; --cat-fonce: #5b21b6; }
+[data-cat='Photo']        { --cat: #ea580c; --cat-pale: #ffedd5; --cat-fonce: #9a3412; }
+[data-cat='Audio']        { --cat: #db2777; --cat-pale: #fce7f3; --cat-fonce: #9d174d; }
+
+body {
+  margin: 0;
+  /* fond à petits points */
+  background: radial-gradient(circle at 1px 1px, #cbd5e1 1px, transparent 0) 0 0 / 22px 22px, var(--fond);
+  color: var(--encre);
+  font-family: var(--police);
+  line-height: 1.5;
+}
+
+/* Titres : police à chasse fixe et barre multicolore à gauche */
+h1,
+h2,
+h3 {
+  font-family: var(--police-titre);
+  color: var(--sombre);
+}
+
+h1 {
+  font-size: 1.6rem;
+  border-left: 6px solid;
+  border-image: linear-gradient(180deg, #2563eb, #7c3aed, #db2777, #ea580c) 1;
+  padding-left: 0.75rem;
+}
+
+a {
+  color: var(--accent-fonce);
+}
+
+/* Contour de focus visible pour la navigation au clavier */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Boutons : principal (vert), secondaire (contour), danger (rouge) */
+button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent);
+  color: #ffffff;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-fonce);
+}
+
+button.secondaire {
+  background: var(--surface);
+  color: var(--accent-fonce);
+}
+
+button.secondaire:hover:not(:disabled) {
+  background: var(--accent-pale);
+}
+
+button.danger {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+button.danger:hover:not(:disabled) {
+  background: #991b1b;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Champs de formulaire */
+input,
+select,
+textarea {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--bord);
+  border-radius: 6px;
+  background: #ffffff;
+  color: inherit;
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+  font-weight: 600;
+}
+
+/* Pastille d'état : rouge = réservé, vert = disponible */
+.etat {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.etat.libre {
+  background: var(--accent-pale);
+  color: var(--accent-fonce);
+}
+
+/* Pastille de catégorie, à la couleur de la catégorie (à poser sur un élément data-cat) */
+.pastille {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--cat-pale, #f1f5f9);
+  color: var(--cat-fonce, #334155);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Messages d'information et d'erreur */
+.message {
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  background: var(--accent-pale);
+  border: 1px solid var(--accent);
+  color: var(--accent-fonce);
+}
+
+.message.erreur {
+  background: #fef2f2;
+  border-color: var(--danger);
+  color: #991b1b;
+}
+
+/* Liste ou résultat vide */
+.vide {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--encre-douce);
+  background: var(--surface);
+  border: 1px dashed var(--bord);
+  border-radius: 8px;
+}

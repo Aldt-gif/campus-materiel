@@ -1,0 +1,25 @@
+<!-- data-cat sert au CSS pour choisir la couleur et l'icône de la catégorie -->
+<article class="carte" [attr.data-cat]="equipement().categorie" [class.reserve]="!disponible()">
+  <div class="icone" aria-hidden="true"></div>
+
+  <div class="corps">
+    <div class="titre">
+      <h2>{{ equipement().nom }}</h2>
+      <span class="etat" [class.libre]="disponible()">{{ disponible() ? 'Disponible' : 'Réservé' }}</span>
+    </div>
+
+    <p class="meta">
+      <span class="pastille">{{ equipement().categorie }}</span>
+      <span>{{ equipement().localisation }}</span>
+    </p>
+
+    <p class="description">{{ equipement().description }}</p>
+
+    <div class="actions">
+      <a [routerLink]="['/materiels', equipement().id]" [attr.aria-label]="'Voir la fiche de ' + equipement().nom">Voir la fiche</a>
+      @if (peutReserver()) {
+        <button type="button" [disabled]="!disponible()" (click)="reserver.emit(equipement().id)">Réserver</button>
+      }
+    </div>
+  </div>
+</article>

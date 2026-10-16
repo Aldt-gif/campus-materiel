@@ -1,0 +1,20 @@
+<h1>Connexion</h1>
+<p>La connexion est simulée : choisissez un compte de démonstration.</p>
+
+@if (auth.utilisateur(); as utilisateur) {
+  <p class="info" role="status">
+    Vous êtes connecté en tant que <strong>{{ utilisateur.nom }}</strong>.
+    <button type="button" class="secondaire" (click)="auth.deconnecter()">Se déconnecter</button>
+  </p>
+}
+
+<ul class="comptes">
+  @for (compte of auth.comptes; track compte.id) {
+    <li>
+      <button type="button" (click)="choisir(compte.id)">
+        {{ compte.nom }}
+        <span class="role" [class.responsable]="compte.role === 'manager'">{{ compte.role === 'student' ? 'Étudiant' : 'Responsable' }}</span>
+      </button>
+    </li>
+  }
+</ul>

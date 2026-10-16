@@ -1,0 +1,74 @@
+@if (introuvable()) {
+  <h1>Équipement introuvable</h1>
+  <p>Aucun équipement ne porte l'identifiant « {{ id() }} ».</p>
+  <p><a routerLink="/gestion">← Retour à la gestion</a></p>
+} @else {
+  <h1>{{ modification() ? 'Modifier un équipement' : 'Nouvel équipement' }}</h1>
+
+  <form [formGroup]="formulaire" (ngSubmit)="enregistrer()" novalidate>
+    <div class="champ">
+      <label for="nom">Nom</label>
+      <input
+        id="nom"
+        type="text"
+        formControlName="nom"
+        [attr.aria-invalid]="messageErreur('nom') ? 'true' : null"
+        [attr.aria-describedby]="messageErreur('nom') ? 'erreur-nom' : null">
+      @if (messageErreur('nom'); as m) {
+        <p class="erreur-champ" id="erreur-nom" role="alert">{{ m }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label for="categorie">Catégorie</label>
+      <select
+        id="categorie"
+        formControlName="categorie"
+        [attr.aria-invalid]="messageErreur('categorie') ? 'true' : null"
+        [attr.aria-describedby]="messageErreur('categorie') ? 'erreur-categorie' : null">
+        <option value="">— Choisir —</option>
+        @for (c of categories; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+      @if (messageErreur('categorie'); as m) {
+        <p class="erreur-champ" id="erreur-categorie" role="alert">{{ m }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        rows="3"
+        formControlName="description"
+        [attr.aria-invalid]="messageErreur('description') ? 'true' : null"
+        [attr.aria-describedby]="messageErreur('description') ? 'erreur-description' : null"></textarea>
+      @if (messageErreur('description'); as m) {
+        <p class="erreur-champ" id="erreur-description" role="alert">{{ m }}</p>
+      }
+    </div>
+
+    <div class="champ">
+      <label for="localisation">Localisation</label>
+      <input
+        id="localisation"
+        type="text"
+        formControlName="localisation"
+        [attr.aria-invalid]="messageErreur('localisation') ? 'true' : null"
+        [attr.aria-describedby]="messageErreur('localisation') ? 'erreur-localisation' : null">
+      @if (messageErreur('localisation'); as m) {
+        <p class="erreur-champ" id="erreur-localisation" role="alert">{{ m }}</p>
+      }
+    </div>
+
+    @if (erreur(); as m) {
+      <p class="message erreur" role="alert">{{ m }}</p>
+    }
+
+    <div class="actions">
+      <button type="submit">{{ modification() ? 'Enregistrer les modifications' : 'Créer l\u2019équipement' }}</button>
+      <a routerLink="/gestion">Annuler</a>
+    </div>
+  </form>
+}

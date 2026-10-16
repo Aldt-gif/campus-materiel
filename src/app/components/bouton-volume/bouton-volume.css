@@ -1,0 +1,221 @@
+/* Le composant est dans l'en-tête ; la boule tombée doit pouvoir déborder au-dessus de la page */
+:host {
+  position: relative;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0.5rem;
+}
+
+.zone {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 10.5rem;
+  height: 2.4rem;
+  padding: 0 1rem;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  border-radius: 999px;
+}
+
+.zone:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* La ligne : la partie remplie (variable --rempli) est ambre, le reste est foncé */
+.piste {
+  position: relative;
+  flex: 1;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f59e0b var(--rempli), #0f2540 var(--rempli));
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.5);
+  transition: box-shadow 0.15s;
+}
+
+/* Quand on tire la boule hors de la ligne, le bout concerné devient rouge */
+.zone.danger-gauche .piste {
+  box-shadow: -0.6rem 0 0.7rem -0.2rem #ef4444, inset 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+.zone.danger-droite .piste {
+  box-shadow: 0.6rem 0 0.7rem -0.2rem #ef4444, inset 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+/* La ligne s'allume en vert quand la boule tenue est juste au-dessus : on peut la déposer */
+.zone.aimant .piste {
+  box-shadow: 0 0 0.9rem 0.1rem #34d399, inset 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+/* La boule, avec ses yeux */
+.balle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 35% 30%, #fde68a, #f59e0b 55%, #b45309);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.5);
+  animation: apparition 0.3s ease-out;
+}
+
+.balle::before,
+.balle::after {
+  content: '';
+  position: absolute;
+  top: 36%;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 50%;
+  background: #1f2937;
+}
+
+.balle::before {
+  left: 28%;
+}
+
+.balle::after {
+  right: 28%;
+}
+
+/* Retour doux de la boule quand on la lâche ou qu'on utilise le clavier */
+.balle.rappel {
+  transition: left 0.25s ease-out;
+}
+
+/* La boule a peur : elle tremble et ses yeux s'agrandissent */
+.balle.tremble {
+  animation: tremble 0.12s linear infinite;
+}
+
+.balle.tremble::before,
+.balle.tremble::after {
+  width: 0.4rem;
+  height: 0.4rem;
+  top: 30%;
+  background: #ffffff;
+  border: 2px solid #1f2937;
+  box-sizing: border-box;
+}
+
+/* La boule tombée : positionnée par le code (physique), au-dessus de toute la page */
+.balle.tombee {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  animation: none;
+  will-change: transform;
+}
+
+.balle.tombee::before,
+.balle.tombee::after {
+  top: 38%;
+  height: 0.12rem;
+  border-radius: 1px;
+}
+
+/* Quand on la tient : elle grossit un peu et ouvre grand les yeux */
+.balle.tombee.saisie {
+  cursor: grabbing;
+  box-shadow: 0 8px 16px rgb(0 0 0 / 0.45);
+}
+
+.balle.tombee.saisie::before,
+.balle.tombee.saisie::after {
+  top: 30%;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: #ffffff;
+  border: 2px solid #1f2937;
+  box-sizing: border-box;
+}
+
+.affichage {
+  /* largeur fixe : l'en-tête ne change pas de forme quand la valeur change */
+  width: 7.5rem;
+  overflow: hidden;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.8rem;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.affichage.absurde {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.remise {
+  /* posé sous l'affichage, sans pousser le reste de l'en-tête */
+  position: absolute;
+  top: calc(100% - 0.35rem);
+  right: 0;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: transparent;
+  color: #fbbf24;
+  border: 1px solid #f59e0b;
+  border-radius: 4px;
+}
+
+.remise:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+.remise:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* Texte réservé aux lecteurs d'écran */
+.sr-seulement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes apparition {
+  from {
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tremble {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-8deg);
+  }
+  50% {
+    transform: translate(calc(-50% + 2px), -50%) rotate(8deg);
+  }
+}
+
+/* Pour les personnes qui réduisent les animations : pas de mouvement, la boule est directement au sol */
+@media (prefers-reduced-motion: reduce) {
+  .balle,
+  .balle.tremble {
+    animation: none;
+  }
+
+  .balle.rappel {
+    transition: none;
+  }
+}
